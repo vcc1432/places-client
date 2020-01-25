@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import PlaceList from '../components/PlaceList';
 
+
 const DUMMY_PLACES = [
   {
     id: "p1",
@@ -18,7 +19,7 @@ const DUMMY_PLACES = [
   },
   {
     id: "p2",
-    title: "Empire State building",
+    title: "Emp. State building",
     description: "A very famous building",
     address: "20 W 34th St. New York, NY 10001",
     imageUrl: "https://images.pexels.com/photos/1796505/pexels-photo-1796505.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
@@ -28,11 +29,12 @@ const DUMMY_PLACES = [
       "lng": -73.98615769999999
     }
   }
-]
+];
 
 const UserPlaces = () => {
   const userId = useParams().uid;
   const loadedPlaces = DUMMY_PLACES.filter(place => place && place.creator === userId);
+  console.log('loadedplaces', loadedPlaces)
   return <PlaceList items={ loadedPlaces } />;
 };
 
