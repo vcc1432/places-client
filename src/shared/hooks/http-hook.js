@@ -7,7 +7,7 @@ export const useHttpClient = () => {
 
   const activeHttpRequests = useRef([]);
 
-  const sendRequest = useCallback(async (URL, method = 'GET', body = null, headers= {}) => {
+  const sendRequest = useCallback(async (url, method = 'GET', body = null, headers= {}) => {
     setIsLoading(true);
     const httpAbortCtrl = new AbortController();
     activeHttpRequests.current.push(httpAbortCtrl);
@@ -21,21 +21,23 @@ export const useHttpClient = () => {
       })
 
       const responseData = await response.json();
-      console.log(responseData)
+
+      activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl);
 
       if (!response.ok) {
         throw new Error(responseData.message);
       }
 
+      setIsLoading(false);
       return responseData;
     } catch (err) {
       setError(err.message);
+      setIsLoading(false);
+      throw err;
     }
-    setIsLoading(false);
-
   }, []);
 
-  clearError = () => {
+  const clearError = () => {
     setError(null);
   };
 
